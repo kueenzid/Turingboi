@@ -8,10 +8,12 @@ import java.util.ArrayList;
 public class Tape {
     private int headPosition = 0;
 
-    private ArrayList<Character> leftPart;
-    private ArrayList<Character> rightPart;
+    private ArrayList<Integer> leftPart;
+    private ArrayList<Integer> rightPart;
 
     public Tape(String input) {
+        leftPart = new ArrayList<>();
+        rightPart = new ArrayList<>();
         initializeTape(input);
     }
 
@@ -20,23 +22,22 @@ public class Tape {
     }
 
     public void moveHead(char side) {
-        switch (side) {
-            case 'R':
-                headPosition++;
-            case 'L':
-                headPosition--;
-            default:
-                System.out.println("WTF");
+        if(side == 'R') {
+            headPosition++;
+        } else if(side == 'L') {
+
+        } else {
+            System.out.println("WTF");
         }
     }
 
     private void initializeTape(String inputs) {
         for (char input : inputs.toCharArray()) {
-            rightPart.add(input);
+            rightPart.add(Character.getNumericValue(input));
         }
     }
 
-    public char readSymbol() {
+    public int readSymbol() {
         if(headPosition >= 0) {
             return rightPart.get(headPosition);
         } else {
@@ -44,11 +45,24 @@ public class Tape {
         }
     }
 
-    public void writeSymbol(char symbol) {
+    public void writeSymbol(int symbol) {
         if(headPosition >= 0) {
             rightPart.set(headPosition, symbol);
         } else {
             leftPart.set(Math.abs(headPosition), symbol);
         }
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder string = new StringBuilder("---Tape---\n");
+        string.append("Head at " + headPosition + "\n| ");
+        for (int i = leftPart.size()-1; i >= 0 ; i--) {
+            string.append(leftPart.get(i) + " | ");
+        }
+        for (int symbol : rightPart) {
+            string.append(symbol + " | ");
+        }
+        return string.toString();
     }
 }

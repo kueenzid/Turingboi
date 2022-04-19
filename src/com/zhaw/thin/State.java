@@ -27,7 +27,7 @@ public class State {
         return write;
     }
 
-    public int getMovement() {
+    public char getMovement() {
         return movement;
     }
 

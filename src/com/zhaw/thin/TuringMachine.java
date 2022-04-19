@@ -3,19 +3,46 @@ package com.zhaw.thin;
 import java.util.ArrayList;
 
 public class TuringMachine {
-    private int currentState = 0;
+    private int currentState = 1;
     private ArrayList<State> states;
     private Tape tape;
+    private boolean stuck = false;
 
     public TuringMachine(String stateConfigs) {
         states = new ArrayList<>();
         createStates(stateConfigs);
+        printStates();
     }
 
-    public void run(String input) {
+    public void run(String input, boolean steps) {
         tape = new Tape(input);
+        System.out.println(this);
+        transition(steps);
+        if(currentState == 2) {
+            System.out.println("Accepted status!");
+        } else {
+            System.out.println("Not accepted status!");
+        }
+    }
 
-        //TODO
+    private void transition(boolean steps) {
+        for (State state : states) {
+            if(state.getCurrentState() == currentState && tape.readSymbol() == state.getRead()) {
+                applyState(state);
+                if(steps) {
+                    System.out.println(this);
+                }
+                transition(steps);
+                return;
+            }
+        }
+        stuck = true;
+    }
+
+    private void applyState(State state) {
+        currentState = state.getNextState();
+        tape.writeSymbol(state.getWrite());
+        tape.moveHead(state.getMovement());
     }
 
     private void createStates(String stateConfigs) {
@@ -47,6 +74,18 @@ public class TuringMachine {
             default:
                 System.out.println("WTF");
                 return 'X';
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Current state is q" + currentState + "\n" + tape.toString();
+    }
+
+    private void printStates() {
+        System.out.println("Turing machine has " + states.size() + " states!");
+        for (State state : states) {
+            System.out.println(state.toString());
         }
     }
 }
