@@ -4,12 +4,15 @@ import java.util.ArrayList;
 
 public class TuringMachine {
     private int currentState = 1;
+    private int acceptedState = 2;
     private ArrayList<State> states;
     private Tape tape;
     private boolean stuck = false;
 
-    public TuringMachine(String stateConfigs) {
+    public TuringMachine(String stateConfigs, int startState, int acceptedState) {
         states = new ArrayList<>();
+        this.currentState = startState;
+        this.acceptedState = acceptedState;
         createStates(stateConfigs);
         printStates();
     }
@@ -18,7 +21,7 @@ public class TuringMachine {
         tape = new Tape(input);
         System.out.println(this);
         transition(steps);
-        if(currentState == 2) {
+        if(currentState == acceptedState) {
             System.out.println("Accepted status!");
         } else {
             System.out.println("Not accepted status!");

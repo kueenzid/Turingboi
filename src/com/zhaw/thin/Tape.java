@@ -7,6 +7,7 @@ import java.util.ArrayList;
  */
 public class Tape {
     private int headPosition = 0;
+    private static final int BLANK = 2;
 
     private ArrayList<Integer> leftPart;
     private ArrayList<Integer> rightPart;
@@ -15,6 +16,7 @@ public class Tape {
         leftPart = new ArrayList<>();
         rightPart = new ArrayList<>();
         initializeTape(input);
+        increaseTape();
     }
 
     public int getHeadPosition() {
@@ -50,6 +52,22 @@ public class Tape {
             rightPart.set(headPosition, symbol);
         } else {
             leftPart.set(Math.abs(headPosition), symbol);
+        }
+    }
+
+    //TODO Verify
+    private void increaseTape() {
+        if(headPosition + 15 > rightPart.size()) {
+            for (int i = rightPart.size(); i < headPosition + 16; i++) {
+                rightPart.add(BLANK);
+            }
+        }
+        if(headPosition < 15) {
+            if(Math.abs(headPosition - 15) > leftPart.size()) {
+                for (int i = leftPart.size(); i < Math.abs(headPosition - 16); i++) {
+                    leftPart.add(BLANK);
+                }
+            }
         }
     }
 

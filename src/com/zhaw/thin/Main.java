@@ -30,8 +30,10 @@ public class Main {
         if(parts.length > 1){
             String word = parts[1];
             System.out.println(coding + " / " + word);
-            TuringMachine turingMachine = new TuringMachine(coding.substring(1));
+            TuringMachine turingMachine = new TuringMachine(coding.substring(1), 0, 2);
             //TODO Ask for steps true or false
+            System.out.println("Choose mode :\n1: Stepmode\n2: Runmode");
+            choice = scanner.nextInt();
             turingMachine.run(word, true);
         }
     }
