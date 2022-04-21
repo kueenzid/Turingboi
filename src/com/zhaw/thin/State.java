@@ -2,12 +2,12 @@ package com.zhaw.thin;
 
 public class State {
     private int currentState;
-    private int read;
+    private char read;
     private int nextState;
-    private int write;
+    private char write;
     private char movement;
 
-    public State(int currentState, int read,  int nextState, int write, char movement) {
+    public State(int currentState, char read,  int nextState, char write, char movement) {
         this.currentState = currentState;
         this.read = read;
         this.nextState = nextState;
@@ -19,11 +19,11 @@ public class State {
         return currentState;
     }
 
-    public int getRead() {
+    public char getRead() {
         return read;
     }
 
-    public int getWrite() {
+    public char getWrite() {
         return write;
     }
 

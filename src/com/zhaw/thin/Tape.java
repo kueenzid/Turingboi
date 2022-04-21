@@ -7,35 +7,43 @@ import java.util.ArrayList;
  */
 public class Tape {
     private int headPosition = 0;
-    private static final int BLANK = 2;
 
-    private ArrayList<Integer> leftPart;
-    private ArrayList<Integer> rightPart;
+    private ArrayList<Character> leftPart;
+    private ArrayList<Character> rightPart;
 
     public Tape(String input) {
         leftPart = new ArrayList<>();
         rightPart = new ArrayList<>();
         initializeTape(input);
-        increaseTape();
-    }
-
-    public int getHeadPosition() {
-        return headPosition;
     }
 
     public void moveHead(char side) {
         if(side == 'R') {
             headPosition++;
+            addCell();
         } else if(side == 'L') {
-
+            headPosition--;
+            addCell();
         } else {
             System.out.println("WTF");
         }
     }
 
+    private void addCell() {
+        if(headPosition >= 0) {
+            if(headPosition + 1 > rightPart.size()) {
+                rightPart.add('2');
+            }
+        } else if(headPosition < 0) {
+            if(Math.abs(headPosition) > leftPart.size()) {
+                leftPart.add('2');
+            }
+        }
+    }
+
     private void initializeTape(String inputs) {
         for (char input : inputs.toCharArray()) {
-            rightPart.add(Character.getNumericValue(input));
+            rightPart.add(input);
         }
     }
 
@@ -43,42 +51,27 @@ public class Tape {
         if(headPosition >= 0) {
             return rightPart.get(headPosition);
         } else {
-            return leftPart.get(Math.abs(headPosition));
+            return leftPart.get(Math.abs(headPosition) - 1);
         }
     }
 
-    public void writeSymbol(int symbol) {
+    public void writeSymbol(char symbol) {
         if(headPosition >= 0) {
             rightPart.set(headPosition, symbol);
         } else {
-            leftPart.set(Math.abs(headPosition), symbol);
+            leftPart.set(Math.abs(headPosition) - 1, symbol);
         }
     }
 
-    //TODO Verify
-    private void increaseTape() {
-        if(headPosition + 15 > rightPart.size()) {
-            for (int i = rightPart.size(); i < headPosition + 16; i++) {
-                rightPart.add(BLANK);
-            }
-        }
-        if(headPosition < 15) {
-            if(Math.abs(headPosition - 15) > leftPart.size()) {
-                for (int i = leftPart.size(); i < Math.abs(headPosition - 16); i++) {
-                    leftPart.add(BLANK);
-                }
-            }
-        }
-    }
 
     @Override
     public String toString() {
         StringBuilder string = new StringBuilder("---Tape---\n");
-        string.append("Head at " + headPosition + "\n| ");
+        string.append("Head at " + (headPosition + 1) + "\n| ");
         for (int i = leftPart.size()-1; i >= 0 ; i--) {
             string.append(leftPart.get(i) + " | ");
         }
-        for (int symbol : rightPart) {
+        for (char symbol : rightPart) {
             string.append(symbol + " | ");
         }
         return string.toString();

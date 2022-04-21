@@ -52,9 +52,9 @@ public class TuringMachine {
         String[] configs = stateConfigs.split("1");
         for (int i = 0; i < configs.length; i+=6) {
             int currentStateConfig = parseStateToInt(configs[i]);
-            int readConfig = parseNumberToInt(configs[i+1]);
+            char readConfig = parseNumberToChar(configs[i+1]);
             int nextStateConfig = parseStateToInt(configs[i+2]);
-            int writeConfig = parseNumberToInt(configs[i+3]);
+            char writeConfig = parseNumberToChar(configs[i+3]);
             char movement = parseMovementToChar(configs[i+4]);
             states.add(new State(currentStateConfig, readConfig, nextStateConfig, writeConfig, movement));
         }
@@ -64,8 +64,8 @@ public class TuringMachine {
         return input.length();
     }
 
-    private int parseNumberToInt(String input) {
-        return input.length() - 1;
+    private char parseNumberToChar(String input) {
+        return (char)(input.length() - 1 + '0');
     }
 
     private char parseMovementToChar(String input) {
