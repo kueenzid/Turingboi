@@ -20,13 +20,15 @@ public class TuringMachine {
 
     public void run(String input, boolean steps) {
         tape = new Tape(input);
+        System.out.println("Start configuration:");
         System.out.println(this);
         while(!stuck) {
             transition(steps);
         }
+        System.out.println("Final Result:");
         System.out.println(this);
         if(currentState == acceptedState) {
-            System.out.println("Accepted status!");
+            System.out.println("Accepted status with result: " + tape.count0() + "!");
         } else {
             System.out.println("Not accepted status!");
         }
@@ -39,6 +41,7 @@ public class TuringMachine {
                 foundState = true;
                 applyState(state);
                 if(steps) {
+                    System.out.println("Using: " + state + "\n");
                     System.out.println(this);
                 }
             }
@@ -109,7 +112,7 @@ public class TuringMachine {
 
     @Override
     public String toString() {
-        return "Current state is q" + currentState + "\n" + tape.toString();
+        return "Current state is q" + currentState + "\n" + tape.toString() + "\n";
     }
 
     private void printStates() {

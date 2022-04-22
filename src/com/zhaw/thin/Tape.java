@@ -65,16 +65,47 @@ public class Tape {
         }
     }
 
+    public int count0() {
+        int zeros = 0;
+        for (char symbol : leftPart) {
+            if(symbol == '0') {
+                zeros++;
+            }
+        }
+        for (char symbol : rightPart) {
+            if(symbol == '0') {
+                zeros++;
+            }
+        }
+        return zeros;
+    }
+
 
     @Override
     public String toString() {
-        StringBuilder string = new StringBuilder("---Tape---\n");
+        StringBuilder string = new StringBuilder();
         string.append("Head at " + (headPosition + 1) + " with " + counter +  " movements\n| ");
+        if(headPosition < 15) {
+            if(headPosition < 0) {
+                for (int i = 0; i < Math.abs(headPosition) + 15 - leftPart.size(); i++) {
+                    string.append("␣ | ");
+                }
+            } else {
+                for (int i = 0; i < 15 + leftPart.size() - headPosition; i++) {
+                    string.append("␣ | ");
+                }
+            }
+        }
         for (int i = leftPart.size()-1; i >= 0 ; i--) {
             string.append(leftPart.get(i) + " | ");
         }
         for (char symbol : rightPart) {
             string.append(symbol + " | ");
+        }
+        if(headPosition >= 0) {
+            for (int i = 0; i < headPosition + 15 - (rightPart.size() - 1); i++) {
+                string.append("␣ | ");
+            }
         }
         return string.toString();
     }
