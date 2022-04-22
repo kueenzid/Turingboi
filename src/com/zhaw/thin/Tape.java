@@ -32,11 +32,11 @@ public class Tape {
     private void addCell() {
         if(headPosition >= 0) {
             if(headPosition + 1 > rightPart.size()) {
-                rightPart.add('2');
+                rightPart.add('␣');
             }
         } else if(headPosition < 0) {
             if(Math.abs(headPosition) > leftPart.size()) {
-                leftPart.add('2');
+                leftPart.add('␣');
             }
         }
     }

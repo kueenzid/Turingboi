@@ -1,6 +1,7 @@
 package com.zhaw.thin;
 
 import java.util.ArrayList;
+import java.util.InvalidPropertiesFormatException;
 
 public class TuringMachine {
     private int currentState = 1;
@@ -9,7 +10,7 @@ public class TuringMachine {
     private Tape tape;
     private boolean stuck = false;
 
-    public TuringMachine(String stateConfigs, int startState, int acceptedState) {
+    public TuringMachine(String stateConfigs, int startState, int acceptedState) throws InvalidPropertiesFormatException {
         states = new ArrayList<>();
         this.currentState = startState;
         this.acceptedState = acceptedState;
@@ -21,6 +22,7 @@ public class TuringMachine {
         tape = new Tape(input);
         System.out.println(this);
         transition(steps);
+        System.out.println(this);
         if(currentState == acceptedState) {
             System.out.println("Accepted status!");
         } else {
@@ -48,7 +50,7 @@ public class TuringMachine {
         tape.moveHead(state.getMovement());
     }
 
-    private void createStates(String stateConfigs) {
+    private void createStates(String stateConfigs) throws InvalidPropertiesFormatException {
         String[] configs = stateConfigs.split("1");
         for (int i = 0; i < configs.length; i+=6) {
             int currentStateConfig = parseStateToInt(configs[i]);
@@ -64,8 +66,29 @@ public class TuringMachine {
         return input.length();
     }
 
-    private char parseNumberToChar(String input) {
-        return (char)(input.length() - 1 + '0');
+    private char parseNumberToChar(String input) throws InvalidPropertiesFormatException {
+        switch (input.length()){
+            case 1:
+                return '0';
+            case 2:
+                return '1';
+            case 3:
+                return '␣';
+            case 4:
+                return 'X';
+            case 5:
+                return 'Y';
+            case 6:
+                return 'Z';
+            case 7:
+                return 'A';
+            case 8:
+                return 'B';
+            case 9:
+                return 'C';
+            default:
+                throw new InvalidPropertiesFormatException("How many symbol do you need?!");
+        }
     }
 
     private char parseMovementToChar(String input) {
