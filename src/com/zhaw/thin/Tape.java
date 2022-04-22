@@ -47,7 +47,7 @@ public class Tape {
         }
     }
 
-    public int readSymbol() {
+    public char readSymbol() {
         if(headPosition >= 0) {
             return rightPart.get(headPosition);
         } else {
