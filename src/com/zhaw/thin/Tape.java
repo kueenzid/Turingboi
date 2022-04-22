@@ -7,6 +7,7 @@ import java.util.ArrayList;
  */
 public class Tape {
     private int headPosition = 0;
+    private int counter = 0;
 
     private ArrayList<Character> leftPart;
     private ArrayList<Character> rightPart;
@@ -18,6 +19,7 @@ public class Tape {
     }
 
     public void moveHead(char side) {
+        counter++;
         if(side == 'R') {
             headPosition++;
             addCell();
@@ -67,7 +69,7 @@ public class Tape {
     @Override
     public String toString() {
         StringBuilder string = new StringBuilder("---Tape---\n");
-        string.append("Head at " + (headPosition + 1) + "\n| ");
+        string.append("Head at " + (headPosition + 1) + " with " + counter +  " movements\n| ");
         for (int i = leftPart.size()-1; i >= 0 ; i--) {
             string.append(leftPart.get(i) + " | ");
         }
