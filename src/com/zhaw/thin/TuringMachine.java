@@ -21,7 +21,9 @@ public class TuringMachine {
     public void run(String input, boolean steps) {
         tape = new Tape(input);
         System.out.println(this);
-        transition(steps);
+        while(!stuck) {
+            transition(steps);
+        }
         System.out.println(this);
         if(currentState == acceptedState) {
             System.out.println("Accepted status!");
@@ -31,17 +33,19 @@ public class TuringMachine {
     }
 
     private void transition(boolean steps) {
+        boolean foundState = false;
         for (State state : states) {
             if(state.getCurrentState() == currentState && tape.readSymbol() == state.getRead()) {
+                foundState = true;
                 applyState(state);
                 if(steps) {
                     System.out.println(this);
                 }
-                transition(steps);
-                return;
             }
         }
-        stuck = true;
+        if(!foundState) {
+            stuck = true;
+        }
     }
 
     private void applyState(State state) {
